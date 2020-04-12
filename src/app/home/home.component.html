@@ -1,0 +1,26 @@
+<div (window:resize)="onResize()">
+    <div id="mySidebar" class="sidebar" [ngClass]="{ 'col-m-6': openbar == true }">
+        <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+        <div *ngFor='let item of items'>
+            <div class="editContainer">
+                <a class="form-control notes" [ngClass]="{ 'changecolor': item?.id === note?.id }" (click)="selecteditem(item)">
+                    {{item.text}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" [ngClass]="{ 'col-m-6': openbar == true }">
+        <div class="topnav form-inline" (click)="openNav()">
+            <div class="displayinline">
+                <i *ngIf='openbar == false' class="glyphicon glyphicon-menu-hamburger"></i>
+                <i (click)="delete()" class="glyphicon glyphicon-trash"></i>
+                <i (click)="add()" class="glyphicon glyphicon-edit"></i>
+                <input type="text" class="form-control search" (keyup)="search()" [(ngModel)]="searchvalue" placeholder="Search">
+            </div>
+        </div>
+        <div class="container editbox">
+            <input type="text" class="form-control inputbox" id="inputbox" [(ngModel)]="editValue" *ngIf='note.id !== undefined' placeholder="Edit text" size="50%" (keyup)="changed($event)" />
+        </div>
+    </div>
+</div>
