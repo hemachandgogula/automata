@@ -6,12 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  items: any[];
   note: any;
+  changetitle: boolean;
+  changetext: boolean;
   count = 1;
   searchvalue: any;
   editValue: any;
   openbar: boolean;
+  items: any[];
   constructor() {
   }
   ngOnInit() {
@@ -57,21 +59,46 @@ export class HomeComponent implements OnInit {
   // add a note on click
   addItem(i) {
     this.items.push({
-      id: i, text: 'New Note'
+      id: i, text: 'No additional text', title: 'New Note'
     });
   }
 
   //select a note
-  selecteditem(e) {
-    this.editValue = e.text === 'New Note' ? '' : e.text;
-    this.note = e;
-    document.getElementById("inputbox").focus();
+  selecteditem(e, label?) {
+    if(label) {
+      if(label == 'text'){
+        this.searchvalue = '';
+        this.changetitle = false;
+        this.changetext = true;
+        this.editValue = e.text === 'No additional text' ? '' : e.text;
+        this.note = e;
+        document.getElementById("editValue").focus();
+      } else{
+        this.changetitle = true;
+        this.changetext = false;
+        this.editValue = e.title === 'New Note' ? '' : e.title;
+        this.note = e;
+        document.getElementById("editValue").focus();
+      }
+    } else {
+      this.editValue = e.title === 'New Note' ? '' : e.title;
+      this.changetitle = true;
+      this.changetext = false;
+      this.note = e;
+      document.getElementById("editValue").focus();
+    }
+
   }
   changed(e) {
-    if (this.note !== undefined) {
-      this.note.text = e.target.value;
-    }
-    localStorage.setItem('notes', JSON.stringify(this.items));
+    
+      if (this.note !== undefined) {
+        if(this.changetitle){
+          this.note.title = e.target.value;
+        } else {
+          this.note.text = e.target.value;
+        }
+      }
+      localStorage.setItem('notes', JSON.stringify(this.items));
   }
 
   // search for the word in the notes
@@ -81,7 +108,7 @@ export class HomeComponent implements OnInit {
     let searchList = [];
     let nonSearchList = [];
     for (i = 0; i < this.items.length; i++) {
-      if (this.items[i].text.includes(this.searchvalue)) {
+      if (this.items[i].text.includes(this.searchvalue) || this.items[i].title.includes(this.searchvalue)) {
         searchList.push(this.items[i]);
       }
       else {

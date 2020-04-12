@@ -3,7 +3,10 @@
         <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
         <div *ngFor='let item of items'>
             <div class="editContainer">
-                <a class="form-control notes" [ngClass]="{ 'changecolor': item?.id === note?.id }" (click)="selecteditem(item)">
+                <a class="form-control notes" [ngClass]="{ 'changecolor': item?.id === note?.id }" (click)="selecteditem(item, 'title')">
+                    {{item.title}}
+                </a>
+                <a class="form-control notes" [ngClass]="{ 'changecolor': item?.id === note?.id }" (click)="selecteditem(item, 'text')">
                     {{item.text}}
                 </a>
             </div>
@@ -20,7 +23,7 @@
             </div>
         </div>
         <div class="container editbox">
-            <input type="text" class="form-control inputbox" id="inputbox" [(ngModel)]="editValue" *ngIf='note.id !== undefined' placeholder="Edit text" size="50%" (keyup)="changed($event)" />
+            <input type="text" class="form-control inputbox" id="editValue" [(ngModel)]="editValue" *ngIf='note.id !== undefined' placeholder="Edit text" size="50%" (keyup)="changed($event)" />
         </div>
     </div>
 </div>
