@@ -1,4 +1,4 @@
-# automata
+# Notes
  A Notes web application to add, delete and edit notes
 
  Application includes the following features:
